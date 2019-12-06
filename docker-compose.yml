@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/Nginx.Dockerfile
+    ports: 
+      - 8080:80
+    links:
+      - fpm
+    container_name: nginx
+    volumes:
+      - ./:/var/www/laravel-app
+    restart: always
+  fpm:
+    build:
+      context: .
+      dockerfile: docker/Fpm.Dockerfile
+    container_name: fpm
+    volumes:
+      - ./:/var/www/laravel-app
+    links:
+      - mysql
+    restart: always
+  mysql:
+    image: yobasystems/alpine-mariadb
+    ports:
+      - "5000:3306"
+    container_name: mysql
+    environment:
+
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: lara_db
+      MYSQL_USER: lara_user
+      MYSQL_PASSWORD: pass
+    restart: always
