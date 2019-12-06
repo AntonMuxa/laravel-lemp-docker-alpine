@@ -20,6 +20,8 @@ services:
     ports:
       - "5000:3306"
     container_name: mysql
+    # volumes:
+    #   - ./mysqlvolume:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: lara_db
